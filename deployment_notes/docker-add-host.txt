@@ -1,0 +1,69 @@
+# connect to the host network from inside a docker container:
+the main idea is to pass in the docker0 IP address to the container via --add-host
+
+in docker-compose.yaml:
+extra_hosts key
+
+# containers for sipherOrg:
+
+ca.sipher
+
+anchorpr.sipher.cerberus.app
+leadpr.sipher.cerberus.app
+communicatepr.sipher.cerberus.app
+endorsepr.sipher.cerberus.app
+commitpr.sipher.cerberus.app
+fallback0pr.sipher.cerberus.app
+fallback1.sipher.cerberus.app
+
+couchdb.anchorpr.sipher
+couchdb.leadpr.sipher
+couchdb.communicatepr.sipher
+couchdb.endorsepr.sipher
+couchdb.commitpr.sipher
+couchdb.fallback0pr.sipher
+couchdb.fallback1pr.sipher
+
+
+# containers for whiteBoxOrg:
+
+ca.whitebox
+
+anchorpr.whitebox.cerberus.app
+leadpr.whitebox.cerberus.app
+communicatepr.whitebox.cerberus.app
+endorsepr.whitebox.cerberus.app
+commitpr.whitebox.cerberus.app
+fallback0pr.whitebox.cerberus.app
+fallback1pr.whitebox.cerberus.app
+
+couchdb.anchorpr.whitebox
+couchdb.leadpr.whitebox
+couchdb.communicatepr.whitebox
+couchdb.endorsepr.whitebox
+couchdb.commitpr.whitebox
+couchdb.fallback0pr.whitebox
+couchdb.fallback1pr.whitebox
+
+
+# containers on ipfsOs:
+
+osprimary1.cerberus.app
+osprimary2.cerberus.app
+osprimary3.cerberus.app
+osfallback0.cerberus.app
+osfallback1.cerberus.app
+
+zk0
+zk1
+zk2
+zk3
+zk4
+
+kafka0.cerberus.app
+kafka1.cerberus.app
+kafka2.cerberus.app
+kafka3.cerberus.app
+kafka4.cerberus.app
+
+cli.cerberus.app

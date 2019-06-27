@@ -1,0 +1,77 @@
+multiple components each keep their own copy of a shared ledger -
+the definitive history of all transactions
+
+as new transactions occur, they must be distributed across the network, keeping all copies of the ledger in
+sync
+
+- new transactions are submitted to the orderer - ordering service
+- the orderer creates a new block (containing the new transactions) on the blockchain
+- the orderer delivers the block to all peers - via gossip
+
+the orderer does not have to deliver blocks to every peer - what happens in hyperledger
+is that the orderer only delivers new blocks to a single peer in each organization - the leader peer
+the leader peer does the job of spreading the information across the rest peers
+
+a key component of the gossip protocol is that each peer forwards messages to a random selection
+of the current peers in the network; this implies that each peer knows which peers are in the network
+so it can choose among them
+
+- anchorpr      - anchor peer
+- leadpr        - lead peer - to spread messages to other peers - or to communicate peer
+- communicatepr -
+- endorsepr
+- commitpr
+- fallback0pr
+- fallback1pr
+
+in Fabric each peer periodically broadcasts a message that indicates it is still alive and connected to the network
+every peer maintains its own list of all the peers in the network - those that are alive and those that are dead
+
+when peer A receives an "alive" message from peer B, it considers peer B as alive and part of the network
+if after a while peer A does not receive an "alive" message from peer B, it considers peer B as dead - and no longer part of the network
+
+just in case peer B is not dead, peer A periodically attempts to connect to to dead peers to see if they are actually "alive"
+for example, it is possible that network issues or failures prevented the "alive" message
+so when peer A contacts peer B directly, it can see that peer B is still alive
+
+this process works only if a peer has a list of other peers to send "alive" messages to
+so each peer is bootstrapped into the network with a bootstrap set of peers to start with
+
+
+Data Dissemination Gossip:
+each peer forwards new data to a randomly-selected subset of peers it knows about
+this process is called broadcast
+and it is a push-based way to move information through the network
+
+however if a peer became disconnected from the network and reconnects later, it would have missed the broadcast process
+in order to catch up with the rest of the network, it needs a pull-based mechanism to request the data it is missing
+
+in hyperledger fabric peers periodically exchange both membership data (the list of peers, alive and dead) and ledger data (transaction blocks)
+with each other
+this allows them to stay up to date even if they miss the broadcast of an "alive" message
+
+in fabric network orderer only delivers blocks to single peer in each organization;
+CORE_PEER_GOSSIP_BOOTSTRAP - used to bootstrap gossip within an organization - when we use gossip, we will usually configure
+all the peers to point to an initial set of peers for bootstrap - space separated list of peers
+
+initial cross organization bootstrap information is provided via the anchor peer - this means that initially a peer in an organization will only know
+about the anchor peers
+
+to inform the gossip end point of a peer to other peers in different organization we need to set up CORE_PEER_GOSSIP_EXTERNALENDPOINT
+if this is not set the endpoint information about the peer will not be broadcast to peers in other organizations -> in order to gossip with peers in
+other organizations we need to set the CORE_PEER_GOSSIP_EXTERNALENDPOINT
+
+Hyperledger Fabric cluster on multiple hosts
+============================================
+
+server 1 - Sipher organization + ca service
+server 2 - WhiteBox organization + ca service
+
+server 3 - ipfs data storage + ordering service nodes + kafka setup
+
+separation:
+sipherOrg
+whiteBoxOrg
+coreSetUp
+
+
